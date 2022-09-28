@@ -11,6 +11,7 @@ pub async fn get_track(client: web::Data<Client>, track: web::Path<String>) -> H
     let track = track.into_inner();
     let collection: Collection<Track> = client.database(DB_NAME).collection(COLL_NAME);
 
+
     match collection
         .find_one(doc! { "name": &track }, None)
         .await
