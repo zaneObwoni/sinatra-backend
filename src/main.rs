@@ -1,8 +1,12 @@
 mod config;
+mod model;
+mod api;
 
 use actix_web::{HttpServer, App, middleware::Logger, web, Responder};
+use api::tracks::{get_track};
 use config::db::get_mongo_client;
 use dotenv;
+use mongodb::Client;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,18 +18,20 @@ async fn main() -> std::io::Result<()> {
    std::env::set_var("RUST_BACKTRACE", "1");
    env_logger::init();
 
-    let client = get_mongo_client().await;
+    // let client = get_mongo_client()
+    //     .await;
+    let uri = std::env::var("MONGO_URI").unwrap_or_else(|_| "mongodb://localhost:27017".into());
+    let client = Client::with_uri_str(uri).await.expect("failed to connect");
 
     HttpServer::new(move || {
         let logger = Logger::default();
         App::new()
-            // link app to mongo db
-            .app_data(client.clone())
+           .app_data(web::Data::new(client.clone()))
             .wrap(logger)
             .route("/hello", web::get().to(|| async { "Hello World!" }))
-            .route("/", web::get().to(hello))
+           .service(get_track)
     })
-    .bind(("127.0.0.1", 80))?
+    .bind(("127.0.0.1", 8000))?
     .run()
     .await
 }

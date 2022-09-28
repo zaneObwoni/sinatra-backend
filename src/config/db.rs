@@ -1,5 +1,4 @@
-use mongodb::{options::ClientOptions, Client};
-use mongodb::bson::doc;
+use mongodb::{options::ClientOptions, Client, bson::doc};
 
 
 pub async fn get_mongo_client() -> Result<Client, mongodb::error::Error> {
@@ -13,7 +12,7 @@ pub async fn get_mongo_client() -> Result<Client, mongodb::error::Error> {
 
     // Ping the server to see if you can connect to the cluster
     client
-        .database("admin")
+        .database("sinatra")
         .run_command(doc! {"ping": 1}, None)
         .await?;
     println!("🤯 CONNECTED TO DB SUCCESSFULLY!!!");
