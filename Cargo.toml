@@ -9,8 +9,7 @@ edition = "2021"
 actix-web = "^4"
 uuid = {version = "1", features = ["v4"]}
 serde = {version = "1", features = ["derive"]}
-aws-config = "0"
 env_logger = "0"
 log = "0"
-strum =  {version = "0", features = ["derive"]}
-derive_more = "0"
+mongodb = "2"
+dotenv = "0"

@@ -1,0 +1,11 @@
+{
+  "collection": {
+    "title": "My Collection",
+    "description": "A collection of my favorite things"
+  },
+  "track": {
+    "title": "The title of the track",
+    "artist": "The artist of the track",
+    "description": "A collection of my favorite things"
+  }
+}
