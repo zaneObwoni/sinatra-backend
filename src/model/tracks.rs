@@ -1,5 +1,5 @@
-use serde::{ Deserialize , Serialize};
-
+use mongodb::bson::oid::ObjectId;
+use serde::{Deserialize, Serialize};
 
 trait Task {
     fn new() -> Self;
@@ -8,46 +8,16 @@ trait Task {
     fn get(&self) -> Self;
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct Track {
-    // pub id: String,
-    pub name: String,
+    #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
+    id: Option<ObjectId>,
+    pub title: String,
+    pub artist: String,
     pub description: String,
-   pub  published: bool,
-}
-
-impl Task for Track {
-    fn new() -> Self {
-        Self {
-            name: String::new(),
-            description: String::new(),
-            published: false,
-        }
-    }
-
-    fn update(&self) -> Self {
-        Self {
-            name: String::new(),
-            description: String::new(),
-            published: false,
-        }
-    }
-
-    fn delete(&self) -> Self {
-        Self {
-            name: String::new(),
-            description: String::new(),
-            published: false,
-        }
-    }
-
-    fn get(&self) -> Self {
-        Self {
-            name: String::new(),
-            description: String::new(),
-            published: false,
-        }
-    }
+    pub published: bool,
+    pub updated: String,
+    pub created: String,
 }
 
 pub struct Tracks {
